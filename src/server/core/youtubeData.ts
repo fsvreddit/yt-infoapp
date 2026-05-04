@@ -150,7 +150,7 @@ export async function getVideoData (videoIds: string[]): Promise<Record<string, 
 
     for (const video of videoData) {
         results[video.id] = video;
-        await redis.set(getCacheKeyForVideo(video.id), JSON.stringify(video), { expiration: addDays(new Date(), 1) });
+        await redis.set(getCacheKeyForVideo(video.id), JSON.stringify(video), { expiration: addDays(new Date(), 7) });
     }
 
     return results;
