@@ -45,4 +45,6 @@ export async function addInfoComment (videoIds: string[], targetId: T1 | T3) {
 
     await newComment.distinguish(shouldSticky);
     await newComment.lock();
+
+    console.log(`Added info comment to ${kind} ${targetId} for videos ${videoIds.join(", ")}`);
 }

@@ -19,7 +19,7 @@ At present, a reason isn't visible in the modqueue when filtering posts or comme
 
 ## Source code
 
-Youtube Information is open source under the BSD three-clause license. [You can find the source code on Github](https://github.com/fsvreddit/yt-info) (this repo will be made public once the app is).
+Youtube Information is open source under the BSD three-clause license. [You can find the source code on Github](https://github.com/fsvreddit/yt-info).
 
 ## Fetch Domains
 

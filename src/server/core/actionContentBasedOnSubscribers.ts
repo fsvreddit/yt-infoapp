@@ -55,5 +55,7 @@ export async function actionContentBasedOnSubscribers (videoIds: string[], targe
         await target.filter(`Post contains ${channelsOutsideThreshold.length} YouTube ${pluralize("channel", channelsOutsideThreshold.length)} with ${outOfThresholdType} than ${subscriberThreshold} subscribers`, false);
     }
 
+    console.log(`Action taken on ${isT3(targetId) ? "post" : "comment"} ${targetId} for containing ${channelsOutsideThreshold.length} YouTube ${pluralize("channel", channelsOutsideThreshold.length)} with ${outOfThresholdType} than ${subscriberThreshold} subscribers.`);
+
     return { message: `Content action taken based on subscriber count of linked channels. ${channelsOutsideThreshold.length} channel(s) were ${outOfThresholdType} than the threshold of ${subscriberThreshold} subscribers.` };
 }
