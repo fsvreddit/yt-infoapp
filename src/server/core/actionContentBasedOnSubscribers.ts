@@ -1,5 +1,5 @@
 import { isT3, T1, T3, TriggerResponse } from "@devvit/web/shared";
-import { AppSetting, ChannelData, getChannelData, getPostOrCommentById, getSettings, getVideoData } from ".";
+import { AppSetting, ChannelData, getBotCommentFooter, getChannelData, getPostOrCommentById, getSettings, getVideoData } from ".";
 import { reddit } from "@devvit/web/server";
 import pluralize from "pluralize";
 
@@ -44,9 +44,10 @@ export async function actionContentBasedOnSubscribers (videoIds: string[], targe
     if (action === "remove") {
         await target.remove();
         if (appSettings[AppSetting.RemovalMessage]) {
+            const removalMessage = appSettings[AppSetting.RemovalMessage].trim() + "\n\n---\n\n" + getBotCommentFooter();
             const newComment = await reddit.submitComment({
                 id: targetId,
-                text: appSettings[AppSetting.RemovalMessage],
+                text: removalMessage,
             });
             const shouldSticky = appSettings[AppSetting.StickyRemovalMessage] && isT3(targetId);
             await newComment.distinguish(shouldSticky);
