@@ -3,7 +3,7 @@ This app can be used to:
 * Create a comment on posts/comments containing Youtube links with information about the video (title, channel, publish date and runtime)
 * Remove or filter posts/comments with video links that have over or under a given subscriber count
 
-![Example comment](https://www.)
+![Example comment](https://raw.githubusercontent.com/fsvreddit/yt-infoapp/refs/heads/main/readme_images/examplecomment.png)
 
 Example use cases:
 
