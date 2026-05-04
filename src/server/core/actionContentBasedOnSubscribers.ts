@@ -34,6 +34,7 @@ export async function actionContentBasedOnSubscribers (videoIds: string[], targe
     }
 
     if (channelsOutsideThreshold.length === 0) {
+        console.log(`No channels linked in content are ${outOfThresholdType} than the subscriber threshold of ${subscriberThreshold}. No action taken on ${isT3(targetId) ? "post" : "comment"} ${targetId}.`);
         return;
     }
 
