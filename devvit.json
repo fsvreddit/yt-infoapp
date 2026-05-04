@@ -1,0 +1,129 @@
+{
+    "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+    "dev": {
+        "subreddit": "fsvsandbox"
+    },
+    "name": "yt-infoapp",
+    "permissions": {
+        "http": {
+            "domains": [
+                "youtube.googleapis.com"
+            ]
+        },
+        "reddit": true
+    },
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite build --watch"
+    },
+    "server": {
+        "dir": "dist/server",
+        "entry": "index.cjs"
+    },
+    "settings": {
+        "global": {
+            "ytAPIKey": {
+                "isSecret": true,
+                "label": "YouTube API Key",
+                "type": "string"
+            }
+        },
+        "subreddit": {
+            "addCommentsWithVideoInformation": {
+                "defaultValue": "posts",
+                "helpText": "Automatically add a comment with video information when a YouTube link is detected in a post or comment. Choose whether to add comments for posts, comments, both, or never.",
+                "label": "Add Comments with Video Information",
+                "options": [
+                    {
+                        "label": "Never",
+                        "value": "never"
+                    },
+                    {
+                        "label": "Posts Only",
+                        "value": "posts"
+                    },
+                    {
+                        "label": "Comments Only",
+                        "value": "comments"
+                    },
+                    {
+                        "label": "Always",
+                        "value": "always"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "stickyVideoInfoComment": {
+                "defaultValue": false,
+                "helpText": "Applies to posts only",
+                "label": "Sticky Video Info Comment",
+                "type": "boolean"
+            },
+            "actionContentBasedOnSubscriberCount": {
+                "defaultValue": "never",
+                "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the subscriber count of the linked channel. You can choose to remove the content, flair it, or take no action.",
+                "label": "Action Content Based on Subscriber Count",
+                "options": [
+                    {
+                        "label": "Never",
+                        "value": "never"
+                    },
+                    {
+                        "label": "Subscribers Lower Than Threshold",
+                        "value": "subsLowerThan"
+                    },
+                    {
+                        "label": "Subscribers Higher Than Threshold",
+                        "value": "subsHigherThan"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "subscriberThreshold": {
+                "defaultValue": 1000,
+                "helpText": "Set the subscriber count threshold for taking action on content. This setting works in conjunction with the 'Action Content Based on Subscriber Count' setting.",
+                "label": "Subscriber Threshold",
+                "type": "number"
+            },
+            "actionToTake": {
+                "defaultValue": "remove",
+                "helpText": "If you choose to take action based on subscriber count, select whether to remove the content or filter it.",
+                "label": "Action to Take",
+                "options": [
+                    {
+                        "label": "Remove Content",
+                        "value": "remove"
+                    },
+                    {
+                        "label": "Filter Content",
+                        "value": "filter"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "removalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube channel does not meet the subscriber count requirements.",
+                "helpText": "If you choose to remove content based on subscriber count, this message will be added in reply to the post/comment. Leave blank to not add a comment.",
+                "label": "Removal Message",
+                "type": "string"
+            },
+            "stickyRemovalMessage": {
+                "defaultValue": true,
+                "label": "Sticky Removal Message",
+                "type": "boolean"
+            }
+        }
+    },
+    "triggers": {
+        "onAppInstall": "/internal/triggers/on-app-install",
+        "onAppUpgrade": "/internal/triggers/on-app-upgrade",
+        "onCommentCreate": "/internal/triggers/on-comment-create",
+        "onPostCreate": "/internal/triggers/on-post-create"
+    },
+    "marketingAssets": {
+        "icon": "assets/icon.png"
+    }
+}
