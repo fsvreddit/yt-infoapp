@@ -17,6 +17,12 @@ When removing posts/comments, a custom removal reason can optionally be left.
 
 At present, a reason isn't visible in the modqueue when filtering posts or comments to the modqueue. I'm going to need a fix from Admin to make this work. It's supposed to say the reason the post or comment was filtered.
 
+## Change History
+
+### v1.0.1
+
+* Mitigate against duplicate actions if the Developer Platform is having issues
+
 ## Source code
 
 Youtube Information is open source under the BSD three-clause license. [You can find the source code on Github](https://github.com/fsvreddit/yt-info).

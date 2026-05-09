@@ -1,8 +1,7 @@
 import { OnPostCreateRequest, T3, TriggerResponse } from "@devvit/web/shared";
 import { Context } from "hono";
-import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, parseYoutubeUrlFromText } from "../core";
-import { context, redis } from "@devvit/web/server";
-import { addWeeks } from "date-fns";
+import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, hasTriggerBeenHandled, parseYoutubeUrlFromText } from "../core";
+import { context } from "@devvit/web/server";
 
 export const handlePostCreate = async (c: Context) => {
     const request = await c.req.json<OnPostCreateRequest>();
@@ -28,11 +27,9 @@ export const handlePostCreate = async (c: Context) => {
         return c.json<TriggerResponse>({ message: "post create handled - no action configured" }, 200);
     }
 
-    const postHandledKey = `postHandled:${request.post.id}`;
-    if (await redis.exists(postHandledKey)) {
+    if (await hasTriggerBeenHandled(`postCreate:${request.post.id}`)) {
         return c.json<TriggerResponse>({ message: "post create handled - already handled" }, 200);
     }
-    await redis.set(postHandledKey, "true", { expiration: addWeeks(new Date(), 1) });
 
     if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] !== "never") {
         const result = await actionContentBasedOnSubscribers(Array.from(videoIds), request.post.id as T3);

@@ -1,8 +1,7 @@
 import { OnCommentCreateRequest, T1, TriggerResponse } from "@devvit/web/shared";
 import { Context } from "hono";
-import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, parseYoutubeUrlFromText } from "../core";
-import { context, redis } from "@devvit/web/server";
-import { addWeeks } from "date-fns";
+import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, hasTriggerBeenHandled, parseYoutubeUrlFromText } from "../core";
+import { context } from "@devvit/web/server";
 
 export const handleCommentCreate = async (c: Context) => {
     const request = await c.req.json<OnCommentCreateRequest>();
@@ -25,11 +24,9 @@ export const handleCommentCreate = async (c: Context) => {
         return c.json<TriggerResponse>({ message: "comment create handled - no action configured" }, 200);
     }
 
-    const commentHandledKey = `commentHandled:${request.comment.id}`;
-    if (await redis.exists(commentHandledKey)) {
+    if (await hasTriggerBeenHandled(`commentCreate:${request.comment.id}`)) {
         return c.json<TriggerResponse>({ message: "comment create handled - already handled" }, 200);
     }
-    await redis.set(commentHandledKey, "true", { expiration: addWeeks(new Date(), 1) });
 
     if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] !== "never") {
         const result = await actionContentBasedOnSubscribers(Array.from(videoIds), request.comment.id as T1);
