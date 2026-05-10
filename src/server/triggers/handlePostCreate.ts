@@ -1,7 +1,8 @@
 import { OnPostCreateRequest, T3, TriggerResponse } from "@devvit/web/shared";
 import { Context } from "hono";
-import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, hasTriggerBeenHandled, parseYoutubeUrlFromText } from "../core";
+import { actionContentBasedOnSubscribers, addInfoComment, AppSetting, getSettings, parseYoutubeUrlFromText } from "../core";
 import { context } from "@devvit/web/server";
+import { hasTriggerBeenHandled } from "@fsvreddit/fsv-devvit-web-helpers";
 
 export const handlePostCreate = async (c: Context) => {
     const request = await c.req.json<OnPostCreateRequest>();
