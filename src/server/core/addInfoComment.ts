@@ -59,10 +59,10 @@ function escapeMarkdownExceptUrls (input: string): string {
 function getInfoFromVideoId (videoData: VideoData, channelData: Record<string, ChannelData>, appSettings: SubredditSettings): string {
     let runtime = "";
     if (videoData.duration.hours > 0) {
-        runtime += `${videoData.duration.hours}h`;
+        runtime += `${videoData.duration.hours}h `;
     }
     if (videoData.duration.minutes > 0) {
-        runtime += `${videoData.duration.minutes}m`;
+        runtime += `${videoData.duration.minutes}m `;
     }
     if (videoData.duration.seconds > 0 && videoData.duration.hours === 0) {
         runtime += `${videoData.duration.seconds}s`;
@@ -80,7 +80,7 @@ function getInfoFromVideoId (videoData: VideoData, channelData: Record<string, C
 
     infoLines.push(videoInfoLine);
 
-    let detailsLine = `Published on ${format(new Date(videoData.publishedAt), "MMMM d, yyyy")}. Runtime: ${runtime}`;
+    let detailsLine = `Published on ${format(new Date(videoData.publishedAt), "MMMM d, yyyy")}. Runtime: ${runtime.trim()}`;
     if (appSettings[AppSetting.IncludeViewCountInVideoInfoComment]) {
         detailsLine += `, ${formatNumber(videoData.viewCount)} views`;
     }
