@@ -59,10 +59,10 @@ function escapeMarkdownExceptUrls (input: string): string {
 function getInfoFromVideoId (videoData: VideoData, channelData: Record<string, ChannelData>, appSettings: SubredditSettings): string {
     let runtime = "";
     if (videoData.duration.hours > 0) {
-        runtime += `${videoData.duration.hours}h `;
+        runtime += `${videoData.duration.hours}h`;
     }
     if (videoData.duration.minutes > 0) {
-        runtime += `${videoData.duration.minutes}m `;
+        runtime += `${videoData.duration.minutes}m`;
     }
     if (videoData.duration.seconds > 0 && videoData.duration.hours === 0) {
         runtime += `${videoData.duration.seconds}s`;
