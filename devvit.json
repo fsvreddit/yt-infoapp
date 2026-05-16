@@ -102,7 +102,7 @@
                 "label": "Subscriber Threshold",
                 "type": "number"
             },
-            "actionToTake": {
+            "subscriberActionToTake": {
                 "defaultValue": "remove",
                 "helpText": "If you choose to take action based on subscriber count, select whether to remove the content or filter it.",
                 "label": "Action to Take",
@@ -119,9 +119,59 @@
                 "type": "select",
                 "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
             },
-            "removalMessage": {
+            "subscriberRemovalMessage": {
                 "defaultValue": "This content has been removed because the linked YouTube channel does not meet the subscriber count requirements.",
                 "helpText": "If you choose to remove content based on subscriber count, this message will be added in reply to the post/comment. Leave blank to not add a comment.",
+                "label": "Removal Message",
+                "type": "string"
+            },
+            "actionContentBasedOnDuration": {
+                "defaultValue": "never",
+                "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the duration of the linked video. You can choose to remove the content, flair it, or take no action.",
+                "label": "Action Content Based on Duration",
+                "options": [
+                    {
+                        "label": "Never",
+                        "value": "never"
+                    },
+                    {
+                        "label": "Duration Shorter Than Threshold",
+                        "value": "durationShorterThan"
+                    },
+                    {
+                        "label": "Duration Longer Than Threshold",
+                        "value": "durationLongerThan"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "durationThreshold": {
+                "helpText": "Set the duration threshold for taking action on content. This setting works in conjunction with the 'Action Content Based on Duration' setting. Format should be hh:mm:ss or mm:ss.",
+                "label": "Duration Threshold",
+                "type": "string",
+                "validationEndpoint": "/internal/validators/validate-duration"
+            },
+            "durationActionToTake": {
+                "defaultValue": "remove",
+                "helpText": "If you choose to take action based on video duration, select whether to remove the content or filter it.",
+                "label": "Action to Take",
+                "options": [
+                    {
+                        "label": "Remove Content",
+                        "value": "remove"
+                    },
+                    {
+                        "label": "Filter Content",
+                        "value": "filter"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "durationRemovalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube video does not meet the duration requirements.",
+                "helpText": "If you choose to remove content based on video duration, this message will be added in reply to the post/comment. Leave blank to not add a comment.",
                 "label": "Removal Message",
                 "type": "string"
             },

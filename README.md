@@ -2,6 +2,7 @@ This app can be used to:
 
 * Create a comment on posts/comments containing Youtube links with information about the video (title, channel, publish date and runtime)
 * Remove or filter posts/comments with video links that have over or under a given subscriber count
+* Remove or filter posts/comments with video links that are over or under a given duration
 
 ![Example comment](https://raw.githubusercontent.com/fsvreddit/yt-infoapp/refs/heads/main/readme_images/examplecomment.png)
 
@@ -10,6 +11,7 @@ Example use cases:
 * Providing information about YouTube videos so that users don't have to second-guess where a link goes (no accidental rickrolls!)
 * Preventing spam by very small channels on subreddits where it is not welcome
 * Preventing inappropriate submissions of videos from large Youtubers on subreddits dedicated to small Youtubers
+* Preventing inappropriate submissions of short videos on subreddits dedicated to long form content (or long videos on channels dedicated to short form content)
 
 When removing posts/comments, a custom removal reason can optionally be left.
 

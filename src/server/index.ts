@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { createServer, getServerPort } from "@devvit/web/server";
 import { getRequestListener } from "@hono/node-server";
 import { handleAppInstall, handleAppUpgrade, handleCommentCreate, handlePostCreate } from "./triggers";
-import { handleSelectFieldHasOptionChosen } from "./validators";
+import { handleSelectFieldHasOptionChosen, handleValidateDuration } from "./validators";
 
 const application = new Hono();
 
@@ -14,6 +14,7 @@ application.post("/internal/triggers/on-comment-create", handleCommentCreate);
 
 // Settings validators
 application.post("/internal/validators/select-field-has-option-chosen", handleSelectFieldHasOptionChosen);
+application.post("/internal/validators/validate-duration", handleValidateDuration);
 
 const server = createServer(getRequestListener(application.fetch));
 server.on("error", (err) => {
