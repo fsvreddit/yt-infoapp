@@ -3,6 +3,9 @@ import { settings } from "@devvit/web/server";
 export enum AppSetting {
     // Subreddit-scoped settings
     AddCommentsWithVideoInformation = "addCommentsWithVideoInformation",
+    IncludeViewCountInVideoInfoComment = "includeViewCountInVideoInfoComment",
+    IncludeSubscriberCountInVideoInfoComment = "includeSubscriberCountInVideoInfoComment",
+    IncludeVideoDescriptionInVideoInfoComment = "includeVideoDescriptionInVideoInfoComment",
     StickyVideoInfoComment = "stickyVideoInfoComment",
     ActionContentBasedOnSubscriberCount = "actionContentBasedOnSubscriberCount",
     SubscriberThreshold = "subscriberThreshold",
@@ -14,8 +17,11 @@ export enum AppSetting {
     YoutubeAPIKey = "ytAPIKey",
 }
 
-interface SubredditSettings {
+export interface SubredditSettings {
     [AppSetting.AddCommentsWithVideoInformation]: "never" | "posts" | "comments" | "always";
+    [AppSetting.IncludeViewCountInVideoInfoComment]: boolean;
+    [AppSetting.IncludeSubscriberCountInVideoInfoComment]: boolean;
+    [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: boolean;
     [AppSetting.StickyVideoInfoComment]: boolean;
     [AppSetting.ActionContentBasedOnSubscriberCount]: "never" | "subsLowerThan" | "subsHigherThan";
     [AppSetting.SubscriberThreshold]: number;
@@ -32,6 +38,9 @@ export async function getSettings (): Promise<SubredditSettings> {
     const appSettings = await settings.getAll();
     return {
         [AppSetting.AddCommentsWithVideoInformation]: firstValueFromArray(appSettings[AppSetting.AddCommentsWithVideoInformation] as string[], "never") as "never" | "posts" | "comments" | "always",
+        [AppSetting.IncludeViewCountInVideoInfoComment]: appSettings[AppSetting.IncludeViewCountInVideoInfoComment] as boolean | undefined ?? false,
+        [AppSetting.IncludeSubscriberCountInVideoInfoComment]: appSettings[AppSetting.IncludeSubscriberCountInVideoInfoComment] as boolean | undefined ?? false,
+        [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: appSettings[AppSetting.IncludeVideoDescriptionInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.StickyVideoInfoComment]: appSettings[AppSetting.StickyVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.ActionContentBasedOnSubscriberCount]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnSubscriberCount] as string[], "never") as "never" | "subsLowerThan" | "subsHigherThan",
         [AppSetting.SubscriberThreshold]: appSettings[AppSetting.SubscriberThreshold] as number | undefined ?? 1000,

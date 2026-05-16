@@ -54,6 +54,21 @@
                 "type": "select",
                 "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
             },
+            "includeViewCountInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include View Count in Video Info Comment",
+                "type": "boolean"
+            },
+            "includeSubscriberCountInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include Subscriber Count in Video Info Comment",
+                "type": "boolean"
+            },
+            "includeVideoDescriptionInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include Video Description in Video Info Comment",
+                "type": "boolean"
+            },
             "stickyVideoInfoComment": {
                 "defaultValue": false,
                 "helpText": "Applies to posts only",
