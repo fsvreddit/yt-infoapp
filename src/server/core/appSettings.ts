@@ -19,6 +19,11 @@ export enum AppSetting {
     DurationActionToTake = "durationActionToTake",
     DurationRemovalMessage = "durationRemovalMessage",
 
+    ActionContentBasedOnHashtags = "actionContentBasedOnHashtags",
+    HashtagsToCheck = "hashtagsToCheck",
+    HashtagActionToTake = "hashtagActionToTake",
+    HashtagRemovalMessage = "hashtagRemovalMessage",
+
     StickyRemovalMessage = "stickyRemovalMessage",
 
     // App-scoped settings
@@ -40,6 +45,10 @@ export interface SubredditSettings {
     [AppSetting.DurationThreshold]?: Duration;
     [AppSetting.DurationActionToTake]: "remove" | "filter";
     [AppSetting.DurationRemovalMessage]: string;
+    [AppSetting.ActionContentBasedOnHashtags]: boolean;
+    [AppSetting.HashtagsToCheck]: string[];
+    [AppSetting.HashtagActionToTake]: "remove" | "filter";
+    [AppSetting.HashtagRemovalMessage]: string;
 }
 
 function firstValueFromArray (arr: string[], defaultValue: string): string {
@@ -97,6 +106,10 @@ export async function getSettings (): Promise<SubredditSettings> {
         [AppSetting.DurationThreshold]: parseDurationSetting(appSettings[AppSetting.DurationThreshold] as string | undefined),
         [AppSetting.DurationActionToTake]: firstValueFromArray(appSettings[AppSetting.DurationActionToTake] as string[], "noAction") as "remove" | "filter",
         [AppSetting.DurationRemovalMessage]: appSettings[AppSetting.DurationRemovalMessage] as string | undefined ?? "",
+        [AppSetting.ActionContentBasedOnHashtags]: appSettings[AppSetting.ActionContentBasedOnHashtags] as boolean | undefined ?? false,
+        [AppSetting.HashtagsToCheck]: (appSettings[AppSetting.HashtagsToCheck] as string | undefined ?? "").split(",").map(tag => tag.toLowerCase().trim()).filter(tag => tag.length > 0),
+        [AppSetting.HashtagActionToTake]: firstValueFromArray(appSettings[AppSetting.HashtagActionToTake] as string[], "noAction") as "remove" | "filter",
+        [AppSetting.HashtagRemovalMessage]: appSettings[AppSetting.HashtagRemovalMessage] as string | undefined ?? "",
         [AppSetting.StickyRemovalMessage]: appSettings[AppSetting.StickyRemovalMessage] as boolean | undefined ?? false,
     };
 }

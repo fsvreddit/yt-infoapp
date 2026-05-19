@@ -5,10 +5,12 @@ import pluralize from "pluralize";
 import { Duration, formatDuration } from "date-fns";
 import { getPostOrCommentById } from "@fsvreddit/fsv-devvit-web-helpers";
 import markdownEscape from "markdown-escape";
+import escapeStringRegexp from "escape-string-regexp";
 
 enum ThresholdIssue {
     SubscriberCount = "subscriberCount",
     Duration = "duration",
+    Hashtags = "hashtags",
 }
 
 function isDurationWithinThreshold (videoDuration: Duration, threshold: Duration, isShorterThan: boolean): boolean {
@@ -19,7 +21,8 @@ function isDurationWithinThreshold (videoDuration: Duration, threshold: Duration
 
 export async function actionContentBasedOnThresholds (videoIds: string[], targetId: T1 | T3): Promise<TriggerResponse | undefined> {
     const appSettings = await getSettings();
-    if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] === "never" && appSettings[AppSetting.ActionContentBasedOnDuration] === "never") {
+
+    if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] === "never" && appSettings[AppSetting.ActionContentBasedOnDuration] === "never" && !appSettings[AppSetting.ActionContentBasedOnHashtags]) {
         return;
     }
 
@@ -85,6 +88,33 @@ export async function actionContentBasedOnThresholds (videoIds: string[], target
                 const removalMessage = appSettings[AppSetting.DurationRemovalMessage].trim();
                 if (removalMessage) {
                     removalMessages.push(removalMessage.replaceAll("{{videos}}", videosOutsideThreshold.map(video => `[${markdownEscape(video.title)}](https://www.youtube.com/watch?v=${video.id})`).join(", ")));
+                }
+            }
+        }
+    }
+
+    if (appSettings[AppSetting.ActionContentBasedOnHashtags]) {
+        const hashtagsToCheck = Array.from(new Set(appSettings[AppSetting.HashtagsToCheck]));
+        const matchedHashtags = new Set<string>();
+
+        for (const video of Object.values(videoData)) {
+            for (const hashtag of hashtagsToCheck) {
+                const regex = new RegExp(`${escapeStringRegexp(hashtag)}\\b`, "i");
+                if (regex.test(video.title) || regex.test(video.description)) {
+                    matchedHashtags.add(hashtag);
+                }
+            }
+        }
+
+        if (matchedHashtags.size > 0) {
+            thresholdIssues.add(ThresholdIssue.Hashtags);
+            const action = appSettings[AppSetting.HashtagActionToTake];
+            if (action === "filter") {
+                filterReasons.push(`${matchedHashtags.size} forbidden ${pluralize("hashtag", matchedHashtags.size)}: ${Array.from(matchedHashtags).join(", ")}`);
+            } else {
+                const removalMessage = appSettings[AppSetting.HashtagRemovalMessage].trim();
+                if (removalMessage) {
+                    removalMessages.push(removalMessage.replaceAll("{{hashtags}}", Array.from(matchedHashtags).join(", ")));
                 }
             }
         }

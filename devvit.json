@@ -175,6 +175,42 @@
                 "label": "Removal Message",
                 "type": "string"
             },
+            "actionContentBasedOnHashtags": {
+                "defaultValue": false,
+                "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the presence of specific hashtags in the video description. You can choose to remove the content, flair it, or take no action.",
+                "label": "Action Content Based on Hashtags",
+                "type": "boolean"
+            },
+            "hashtagsToCheck": {
+                "defaultValue": "",
+                "helpText": "If you choose to take action based on hashtags, enter the list of hashtags to check for, separated by commas. For example: #shorts, #gaming. The app will check if any of the specified hashtags are present in the video description.",
+                "label": "Hashtags to Check",
+                "type": "string",
+                "validationEndpoint": "/internal/validators/validate-hashtags"
+            },
+            "hashtagActionToTake": {
+                "defaultValue": "remove",
+                "helpText": "If you choose to take action based on hashtags, select whether to remove the content or filter it.",
+                "label": "Action to Take",
+                "options": [
+                    {
+                        "label": "Remove Content",
+                        "value": "remove"
+                    },
+                    {
+                        "label": "Filter Content",
+                        "value": "filter"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "hashtagRemovalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube video contains disallowed hashtags in its description: {{hashtags}}.",
+                "helpText": "If you choose to remove content based on hashtags, this message will be added in reply to the post/comment. Leave blank to not add a comment. Placeholder supported: {{hashtags}}.",
+                "label": "Removal Message",
+                "type": "string"
+            },
             "stickyRemovalMessage": {
                 "defaultValue": true,
                 "label": "Sticky Removal Message",

@@ -23,6 +23,7 @@
     "@fsvreddit/fsv-devvit-web-helpers": "github:fsvreddit/fsv-devvit-web-helpers",
     "@hono/node-server": "^2.0.0",
     "date-fns": "^4.1.0",
+    "escape-string-regexp": "^5.0.0",
     "hono": "^4.11.7",
     "markdown-escape": "^2.0.0",
     "pluralize": "^8.0.0"
