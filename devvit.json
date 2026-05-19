@@ -54,6 +54,21 @@
                 "type": "select",
                 "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
             },
+            "includeViewCountInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include View Count in Video Info Comment",
+                "type": "boolean"
+            },
+            "includeSubscriberCountInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include Subscriber Count in Video Info Comment",
+                "type": "boolean"
+            },
+            "includeVideoDescriptionInVideoInfoComment": {
+                "defaultValue": false,
+                "label": "Include Video Description in Video Info Comment",
+                "type": "boolean"
+            },
             "stickyVideoInfoComment": {
                 "defaultValue": false,
                 "helpText": "Applies to posts only",
@@ -87,7 +102,7 @@
                 "label": "Subscriber Threshold",
                 "type": "number"
             },
-            "actionToTake": {
+            "subscriberActionToTake": {
                 "defaultValue": "remove",
                 "helpText": "If you choose to take action based on subscriber count, select whether to remove the content or filter it.",
                 "label": "Action to Take",
@@ -104,9 +119,95 @@
                 "type": "select",
                 "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
             },
-            "removalMessage": {
-                "defaultValue": "This content has been removed because the linked YouTube channel does not meet the subscriber count requirements.",
-                "helpText": "If you choose to remove content based on subscriber count, this message will be added in reply to the post/comment. Leave blank to not add a comment.",
+            "subscriberRemovalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube channel or channels do not meet the subscriber count requirements: {{channels}}.",
+                "helpText": "If you choose to remove content based on subscriber count, this message will be added in reply to the post/comment. Leave blank to not add a comment. Supports placeholder {{channels}}, which will be replaced with a comma-separated list of channels that did not meet the subscriber threshold.",
+                "label": "Removal Message",
+                "type": "string"
+            },
+            "actionContentBasedOnDuration": {
+                "defaultValue": "never",
+                "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the duration of the linked video. You can choose to remove the content, flair it, or take no action.",
+                "label": "Action Content Based on Duration",
+                "options": [
+                    {
+                        "label": "Never",
+                        "value": "never"
+                    },
+                    {
+                        "label": "Duration Shorter Than Threshold",
+                        "value": "durationShorterThan"
+                    },
+                    {
+                        "label": "Duration Longer Than Threshold",
+                        "value": "durationLongerThan"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "durationThreshold": {
+                "helpText": "Set the duration threshold for taking action on content. This setting works in conjunction with the 'Action Content Based on Duration' setting. Format should be hh:mm:ss or mm:ss.",
+                "label": "Duration Threshold",
+                "type": "string",
+                "validationEndpoint": "/internal/validators/validate-duration"
+            },
+            "durationActionToTake": {
+                "defaultValue": "remove",
+                "helpText": "If you choose to take action based on video duration, select whether to remove the content or filter it.",
+                "label": "Action to Take",
+                "options": [
+                    {
+                        "label": "Remove Content",
+                        "value": "remove"
+                    },
+                    {
+                        "label": "Filter Content",
+                        "value": "filter"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "durationRemovalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube video does not meet the duration requirements: {{videos}}.",
+                "helpText": "If you choose to remove content based on video duration, this message will be added in reply to the post/comment. Leave blank to not add a comment. Supports placeholder {{videos}}, which will be replaced with a comma-separated list of titles of videos that did not meet the duration threshold.",
+                "label": "Removal Message",
+                "type": "string"
+            },
+            "actionContentBasedOnHashtags": {
+                "defaultValue": false,
+                "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the presence of specific hashtags in the video description. You can choose to remove the content, flair it, or take no action.",
+                "label": "Action Content Based on Hashtags",
+                "type": "boolean"
+            },
+            "hashtagsToCheck": {
+                "defaultValue": "",
+                "helpText": "If you choose to take action based on hashtags, enter the list of hashtags to check for, separated by commas. For example: #shorts, #gaming. The app will check if any of the specified hashtags are present in the video description.",
+                "label": "Hashtags to Check",
+                "type": "string",
+                "validationEndpoint": "/internal/validators/validate-hashtags"
+            },
+            "hashtagActionToTake": {
+                "defaultValue": "remove",
+                "helpText": "If you choose to take action based on hashtags, select whether to remove the content or filter it.",
+                "label": "Action to Take",
+                "options": [
+                    {
+                        "label": "Remove Content",
+                        "value": "remove"
+                    },
+                    {
+                        "label": "Filter Content",
+                        "value": "filter"
+                    }
+                ],
+                "type": "select",
+                "validationEndpoint": "/internal/validators/select-field-has-option-chosen"
+            },
+            "hashtagRemovalMessage": {
+                "defaultValue": "This content has been removed because the linked YouTube video contains disallowed hashtags in its description: {{hashtags}}.",
+                "helpText": "If you choose to remove content based on hashtags, this message will be added in reply to the post/comment. Leave blank to not add a comment. Placeholder supported: {{hashtags}}.",
                 "label": "Removal Message",
                 "type": "string"
             },
