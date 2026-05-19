@@ -4,6 +4,7 @@ import { reddit } from "@devvit/web/server";
 import pluralize from "pluralize";
 import { Duration, formatDuration } from "date-fns";
 import { getPostOrCommentById } from "@fsvreddit/fsv-devvit-web-helpers";
+import markdownEscape from "markdown-escape";
 
 enum ThresholdIssue {
     SubscriberCount = "subscriberCount",
@@ -54,7 +55,10 @@ export async function actionContentBasedOnThresholds (videoIds: string[], target
             if (action === "filter") {
                 filterReasons.push(`${channelsOutsideThreshold.length} YouTube ${pluralize("channel", channelsOutsideThreshold.length)} with ${outOfThresholdType} than ${subscriberThreshold} subscribers`);
             } else {
-                removalMessages.push(appSettings[AppSetting.SubscriberRemovalMessage].trim());
+                const removalMessage = appSettings[AppSetting.SubscriberRemovalMessage].trim();
+                if (removalMessage) {
+                    removalMessages.push(removalMessage.replaceAll("{{channels}}", channelsOutsideThreshold.map(channel => `[${markdownEscape(channel.title)}](https://www.youtube.com/channel/${channel.id})`).join(", ")));
+                }
             }
         }
     }
@@ -76,9 +80,12 @@ export async function actionContentBasedOnThresholds (videoIds: string[], target
             thresholdIssues.add(ThresholdIssue.Duration);
             const action = appSettings[AppSetting.DurationActionToTake];
             if (action === "filter") {
-                filterReasons.push(`${videosOutsideThreshold.length} video(s) with ${outOfThresholdType} duration than ${formatDuration(durationThreshold)}`);
+                filterReasons.push(`${videosOutsideThreshold.length} ${pluralize("video", videosOutsideThreshold.length)} with ${outOfThresholdType} duration than ${formatDuration(durationThreshold)}`);
             } else {
-                removalMessages.push(appSettings[AppSetting.DurationRemovalMessage].trim());
+                const removalMessage = appSettings[AppSetting.DurationRemovalMessage].trim();
+                if (removalMessage) {
+                    removalMessages.push(removalMessage.replaceAll("{{videos}}", videosOutsideThreshold.map(video => `[${markdownEscape(video.title)}](https://www.youtube.com/watch?v=${video.id})`).join(", ")));
+                }
             }
         }
     }
