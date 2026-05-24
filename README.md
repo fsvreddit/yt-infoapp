@@ -24,6 +24,11 @@ At present, a reason isn't visible in the modqueue when filtering posts or comme
 
 ## Change History
 
+### v1.2.0
+
+* Add options (on by default) to exempt mods and approved users from removal/filter actions
+* Add better validation on settings
+
 ### v1.1.0
 
 * Allow control of extra detail on informational comments (view count, channel subscriber count, video description)
@@ -33,7 +38,7 @@ At present, a reason isn't visible in the modqueue when filtering posts or comme
 
 ## Source code
 
-Youtube Information is open source under the BSD three-clause license. [You can find the source code on Github](https://github.com/fsvreddit/yt-info).
+Youtube Info and Enforcement is open source under the BSD three-clause license. [You can find the source code on Github](https://github.com/fsvreddit/yt-info).
 
 ## Fetch Domains
 

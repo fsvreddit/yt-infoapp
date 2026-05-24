@@ -1,16 +1,20 @@
 import { OnPostCreateRequest, T3, TriggerResponse } from "@devvit/web/shared";
 import { Context } from "hono";
-import { actionContentBasedOnThresholds, addInfoComment, AppSetting, getSettings, parseYoutubeUrlFromText } from "../core";
+import { actionContentBasedOnThresholds, addInfoComment, AppSetting, fixContentCreationRequest, getSettings, parseYoutubeUrlFromText } from "../core";
 import { context } from "@devvit/web/server";
 import { hasTriggerBeenHandled } from "@fsvreddit/fsv-devvit-web-helpers";
 
 export const handlePostCreate = async (c: Context) => {
-    const request = await c.req.json<OnPostCreateRequest>();
+    const request = await fixContentCreationRequest(await c.req.json<OnPostCreateRequest>());
     if (!request.post) {
         return c.json<TriggerResponse>({ message: "post create handled - no url" }, 200);
     }
 
-    if (request.author?.name === context.appSlug) {
+    if (!request.author) {
+        return c.json<TriggerResponse>({ message: "post create handled - no author" }, 200);
+    }
+
+    if (request.author.name === context.appSlug) {
         return c.json<TriggerResponse>({ message: "post create handled - post by bot" }, 200);
     }
 
@@ -33,7 +37,7 @@ export const handlePostCreate = async (c: Context) => {
     }
 
     if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] !== "never" || appSettings[AppSetting.ActionContentBasedOnDuration] !== "never" || appSettings[AppSetting.ActionContentBasedOnHashtags]) {
-        const result = await actionContentBasedOnThresholds(Array.from(videoIds), request.post.id as T3);
+        const result = await actionContentBasedOnThresholds(Array.from(videoIds), request.author.name, request.post.id as T3, appSettings);
         if (result) {
             return c.json(result, 200);
         }

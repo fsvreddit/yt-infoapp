@@ -75,6 +75,16 @@
                 "label": "Sticky Video Info Comment",
                 "type": "boolean"
             },
+            "exemptModsFromAllEnforcementActions": {
+                "defaultValue": true,
+                "label": "Exempt moderators from all enforcement actions",
+                "type": "boolean"
+            },
+            "exemptApprovedUsersFromAllEnforcementActions": {
+                "defaultValue": true,
+                "label": "Exempt approved users from all enforcement actions",
+                "type": "boolean"
+            },
             "actionContentBasedOnSubscriberCount": {
                 "defaultValue": "never",
                 "helpText": "Choose whether to take action on posts or comments containing YouTube links based on the subscriber count of the linked channel. You can choose to remove the content, flair it, or take no action.",
@@ -100,7 +110,8 @@
                 "defaultValue": 1000,
                 "helpText": "Set the subscriber count threshold for taking action on content. This setting works in conjunction with the 'Action Content Based on Subscriber Count' setting.",
                 "label": "Subscriber Threshold",
-                "type": "number"
+                "type": "number",
+                "validationEndpoint": "/internal/validators/number-field-is-zero-or-higher"
             },
             "subscriberActionToTake": {
                 "defaultValue": "remove",
@@ -222,7 +233,8 @@
         "onAppInstall": "/internal/triggers/on-app-install",
         "onAppUpgrade": "/internal/triggers/on-app-upgrade",
         "onCommentCreate": "/internal/triggers/on-comment-create",
-        "onPostCreate": "/internal/triggers/on-post-create"
+        "onPostCreate": "/internal/triggers/on-post-create",
+        "onModAction": "/internal/triggers/on-mod-action"
     },
     "marketingAssets": {
         "icon": "assets/icon.png"

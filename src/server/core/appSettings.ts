@@ -9,6 +9,9 @@ export enum AppSetting {
     IncludeVideoDescriptionInVideoInfoComment = "includeVideoDescriptionInVideoInfoComment",
     StickyVideoInfoComment = "stickyVideoInfoComment",
 
+    ExemptModsFromAllEnforcementActions = "exemptModsFromAllEnforcementActions",
+    ExemptApprovedUsersFromAllEnforcementActions = "exemptApprovedUsersFromAllEnforcementActions",
+
     ActionContentBasedOnSubscriberCount = "actionContentBasedOnSubscriberCount",
     SubscriberThreshold = "subscriberThreshold",
     SubscriberActionToTake = "subscriberActionToTake",
@@ -36,6 +39,8 @@ export interface SubredditSettings {
     [AppSetting.IncludeSubscriberCountInVideoInfoComment]: boolean;
     [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: boolean;
     [AppSetting.StickyVideoInfoComment]: boolean;
+    [AppSetting.ExemptModsFromAllEnforcementActions]: boolean;
+    [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: boolean;
     [AppSetting.ActionContentBasedOnSubscriberCount]: "never" | "subsLowerThan" | "subsHigherThan";
     [AppSetting.SubscriberThreshold]: number;
     [AppSetting.SubscriberActionToTake]: "remove" | "filter";
@@ -98,6 +103,8 @@ export async function getSettings (): Promise<SubredditSettings> {
         [AppSetting.IncludeSubscriberCountInVideoInfoComment]: appSettings[AppSetting.IncludeSubscriberCountInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: appSettings[AppSetting.IncludeVideoDescriptionInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.StickyVideoInfoComment]: appSettings[AppSetting.StickyVideoInfoComment] as boolean | undefined ?? false,
+        [AppSetting.ExemptModsFromAllEnforcementActions]: appSettings[AppSetting.ExemptModsFromAllEnforcementActions] as boolean | undefined ?? true,
+        [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: appSettings[AppSetting.ExemptApprovedUsersFromAllEnforcementActions] as boolean | undefined ?? true,
         [AppSetting.ActionContentBasedOnSubscriberCount]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnSubscriberCount] as string[], "never") as "never" | "subsLowerThan" | "subsHigherThan",
         [AppSetting.SubscriberThreshold]: appSettings[AppSetting.SubscriberThreshold] as number | undefined ?? 1000,
         [AppSetting.SubscriberActionToTake]: firstValueFromArray(appSettings[AppSetting.SubscriberActionToTake] as string[], "noAction") as "remove" | "filter",

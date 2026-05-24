@@ -1,5 +1,5 @@
 import { isT3, T1, T3, TriggerResponse } from "@devvit/web/shared";
-import { AppSetting, ChannelData, getBotCommentFooter, getChannelData, getSettings, getVideoData, VideoData } from ".";
+import { AppSetting, ChannelData, getBotCommentFooter, getChannelData, getVideoData, isUserExemptFromActions, SubredditSettings, VideoData } from ".";
 import { reddit } from "@devvit/web/server";
 import pluralize from "pluralize";
 import { Duration, formatDuration } from "date-fns";
@@ -19,9 +19,7 @@ function isDurationWithinThreshold (videoDuration: Duration, threshold: Duration
     return isShorterThan ? videoTotalSeconds < thresholdTotalSeconds : videoTotalSeconds > thresholdTotalSeconds;
 }
 
-export async function actionContentBasedOnThresholds (videoIds: string[], targetId: T1 | T3): Promise<TriggerResponse | undefined> {
-    const appSettings = await getSettings();
-
+export async function actionContentBasedOnThresholds (videoIds: string[], username: string, targetId: T1 | T3, appSettings: SubredditSettings): Promise<TriggerResponse | undefined> {
     if (appSettings[AppSetting.ActionContentBasedOnSubscriberCount] === "never" && appSettings[AppSetting.ActionContentBasedOnDuration] === "never" && !appSettings[AppSetting.ActionContentBasedOnHashtags]) {
         return;
     }
@@ -29,6 +27,11 @@ export async function actionContentBasedOnThresholds (videoIds: string[], target
     const videoData = await getVideoData(videoIds);
 
     if (Object.keys(videoData).length === 0) {
+        return;
+    }
+
+    if (await isUserExemptFromActions(username, appSettings)) {
+        console.log(`User ${username} is exempt from actions, skipping threshold checks.`);
         return;
     }
 
