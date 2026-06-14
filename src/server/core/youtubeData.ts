@@ -207,12 +207,12 @@ export async function getChannelData (channelIds: string[]): Promise<Record<stri
  * @param text The text of a post or comment body
  */
 export function parseYoutubeUrlFromText (text: string): string[] {
-    const urlRegex = /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})/g;
+    const urlRegex = /https?:\/\/(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|https?:\/\/youtu\.be\/([a-zA-Z0-9_-]{11})|https?:\/\/(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/g;
     const videoIds = new Set<string>();
 
     const matches = text.matchAll(urlRegex);
     for (const match of matches) {
-        const videoId = match[1] ?? match[2];
+        const videoId = match[1] ?? match[2] ?? match[3];
         if (videoId) {
             videoIds.add(videoId);
         }
