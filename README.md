@@ -24,6 +24,10 @@ At present, a reason isn't visible in the modqueue when filtering posts or comme
 
 ## Change History
 
+### v1.2.1
+
+* Add support for Youtube Shorts URLs
+
 ### v1.2.0
 
 * Add options (on by default) to exempt mods and approved users from removal/filter actions
