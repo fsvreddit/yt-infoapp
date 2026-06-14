@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "modmailtranslate",
+  "name": "yt-infoapp",
   "version": "0.0.0",
   "license": "BSD-3-Clause",
   "type": "module",
@@ -18,8 +18,8 @@
     "node": ">=22.2.0"
   },
   "dependencies": {
-    "@devvit/start": "0.12.24",
-    "@devvit/web": "0.12.24",
+    "@devvit/start": "0.13.3",
+    "@devvit/web": "0.13.3",
     "@fsvreddit/fsv-devvit-web-helpers": "github:fsvreddit/fsv-devvit-web-helpers",
     "@hono/node-server": "^2.0.0",
     "date-fns": "^4.1.0",
@@ -33,7 +33,7 @@
     "@types/markdown-escape": "^1.1.3",
     "@types/node": "^22.19.7",
     "@types/pluralize": "^0.0.33",
-    "devvit": "0.12.24",
+    "devvit": "0.13.3",
     "eslint": "^10.0.0",
     "typescript": "5.8.3",
     "vite": "^8.0.0",

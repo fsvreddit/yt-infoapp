@@ -134,7 +134,7 @@
                 "defaultValue": "This content has been removed because the linked YouTube channel or channels do not meet the subscriber count requirements: {{channels}}.",
                 "helpText": "If you choose to remove content based on subscriber count, this message will be added in reply to the post/comment. Leave blank to not add a comment. Supports placeholder {{channels}}, which will be replaced with a comma-separated list of channels that did not meet the subscriber threshold.",
                 "label": "Removal Message",
-                "type": "string"
+                "type": "paragraph"
             },
             "actionContentBasedOnDuration": {
                 "defaultValue": "never",
@@ -184,7 +184,7 @@
                 "defaultValue": "This content has been removed because the linked YouTube video does not meet the duration requirements: {{videos}}.",
                 "helpText": "If you choose to remove content based on video duration, this message will be added in reply to the post/comment. Leave blank to not add a comment. Supports placeholder {{videos}}, which will be replaced with a comma-separated list of titles of videos that did not meet the duration threshold.",
                 "label": "Removal Message",
-                "type": "string"
+                "type": "paragraph"
             },
             "actionContentBasedOnHashtags": {
                 "defaultValue": false,
@@ -220,7 +220,7 @@
                 "defaultValue": "This content has been removed because the linked YouTube video contains disallowed hashtags in its description: {{hashtags}}.",
                 "helpText": "If you choose to remove content based on hashtags, this message will be added in reply to the post/comment. Leave blank to not add a comment. Placeholder supported: {{hashtags}}.",
                 "label": "Removal Message",
-                "type": "string"
+                "type": "paragraph"
             },
             "stickyRemovalMessage": {
                 "defaultValue": true,

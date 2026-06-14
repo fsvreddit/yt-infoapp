@@ -21,15 +21,16 @@ vi.mock("@devvit/web/server", () => ({
 import { getChannelData, getVideoData, parseYoutubeUrlFromText } from "./youtubeData.js";
 
 describe("parseYoutubeUrlFromText", () => {
-    it("extracts video IDs from youtube.com and youtu.be URLs", () => {
+    it("extracts video IDs from youtube.com, youtu.be, and shorts URLs", () => {
         const text = [
             "Watch this: https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             "And this one: https://youtu.be/3JZ_D3ELwOQ",
+            "Shorts link: https://www.youtube.com/shorts/9bZkp7q19f0",
         ].join("\n");
 
         const videoIds = parseYoutubeUrlFromText(text);
 
-        assert.deepEqual(videoIds, ["dQw4w9WgXcQ", "3JZ_D3ELwOQ"]);
+        assert.deepEqual(videoIds, ["dQw4w9WgXcQ", "3JZ_D3ELwOQ", "9bZkp7q19f0"]);
     });
 
     it("returns an empty array when there are no YouTube URLs", () => {
@@ -44,6 +45,7 @@ describe("parseYoutubeUrlFromText", () => {
             "Duplicate short URL: https://youtu.be/dQw4w9WgXcQ",
             "Different video: https://youtu.be/3JZ_D3ELwOQ",
             "Duplicate standard URL: https://youtube.com/watch?v=3JZ_D3ELwOQ",
+            "Shorts duplicate: https://www.youtube.com/shorts/3JZ_D3ELwOQ",
         ].join("\n");
 
         const videoIds = parseYoutubeUrlFromText(text);
