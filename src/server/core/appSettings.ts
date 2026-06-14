@@ -33,26 +33,31 @@ export enum AppSetting {
     YoutubeAPIKey = "ytAPIKey",
 }
 
+type AddCommentsWithVideoInformationSetting = "never" | "posts" | "comments" | "always";
+type ActionContentBasedOnSubscriberCountSetting = "never" | "subsLowerThan" | "subsHigherThan";
+type ActionContentBasedOnDurationSetting = "never" | "durationShorterThan" | "durationLongerThan";
+type ActionToTakeSetting = "remove" | "filter";
+
 export interface SubredditSettings {
-    [AppSetting.AddCommentsWithVideoInformation]: "never" | "posts" | "comments" | "always";
+    [AppSetting.AddCommentsWithVideoInformation]: AddCommentsWithVideoInformationSetting;
     [AppSetting.IncludeViewCountInVideoInfoComment]: boolean;
     [AppSetting.IncludeSubscriberCountInVideoInfoComment]: boolean;
     [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: boolean;
     [AppSetting.StickyVideoInfoComment]: boolean;
     [AppSetting.ExemptModsFromAllEnforcementActions]: boolean;
     [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: boolean;
-    [AppSetting.ActionContentBasedOnSubscriberCount]: "never" | "subsLowerThan" | "subsHigherThan";
+    [AppSetting.ActionContentBasedOnSubscriberCount]: ActionContentBasedOnSubscriberCountSetting;
     [AppSetting.SubscriberThreshold]: number;
-    [AppSetting.SubscriberActionToTake]: "remove" | "filter";
+    [AppSetting.SubscriberActionToTake]: ActionToTakeSetting;
     [AppSetting.SubscriberRemovalMessage]: string;
     [AppSetting.StickyRemovalMessage]: boolean;
-    [AppSetting.ActionContentBasedOnDuration]: "never" | "durationShorterThan" | "durationLongerThan";
+    [AppSetting.ActionContentBasedOnDuration]: ActionContentBasedOnDurationSetting;
     [AppSetting.DurationThreshold]?: Duration;
-    [AppSetting.DurationActionToTake]: "remove" | "filter";
+    [AppSetting.DurationActionToTake]: ActionToTakeSetting;
     [AppSetting.DurationRemovalMessage]: string;
     [AppSetting.ActionContentBasedOnHashtags]: boolean;
     [AppSetting.HashtagsToCheck]: string[];
-    [AppSetting.HashtagActionToTake]: "remove" | "filter";
+    [AppSetting.HashtagActionToTake]: ActionToTakeSetting;
     [AppSetting.HashtagRemovalMessage]: string;
 }
 
@@ -98,24 +103,24 @@ export function parseDurationSetting (duration: string | undefined): Duration | 
 export async function getSettings (): Promise<SubredditSettings> {
     const appSettings = await settings.getAll();
     return {
-        [AppSetting.AddCommentsWithVideoInformation]: firstValueFromArray(appSettings[AppSetting.AddCommentsWithVideoInformation] as string[], "never") as "never" | "posts" | "comments" | "always",
+        [AppSetting.AddCommentsWithVideoInformation]: firstValueFromArray(appSettings[AppSetting.AddCommentsWithVideoInformation] as string[], "never") as AddCommentsWithVideoInformationSetting,
         [AppSetting.IncludeViewCountInVideoInfoComment]: appSettings[AppSetting.IncludeViewCountInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.IncludeSubscriberCountInVideoInfoComment]: appSettings[AppSetting.IncludeSubscriberCountInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: appSettings[AppSetting.IncludeVideoDescriptionInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.StickyVideoInfoComment]: appSettings[AppSetting.StickyVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.ExemptModsFromAllEnforcementActions]: appSettings[AppSetting.ExemptModsFromAllEnforcementActions] as boolean | undefined ?? true,
         [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: appSettings[AppSetting.ExemptApprovedUsersFromAllEnforcementActions] as boolean | undefined ?? true,
-        [AppSetting.ActionContentBasedOnSubscriberCount]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnSubscriberCount] as string[], "never") as "never" | "subsLowerThan" | "subsHigherThan",
+        [AppSetting.ActionContentBasedOnSubscriberCount]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnSubscriberCount] as string[], "never") as ActionContentBasedOnSubscriberCountSetting,
         [AppSetting.SubscriberThreshold]: appSettings[AppSetting.SubscriberThreshold] as number | undefined ?? 1000,
-        [AppSetting.SubscriberActionToTake]: firstValueFromArray(appSettings[AppSetting.SubscriberActionToTake] as string[], "noAction") as "remove" | "filter",
+        [AppSetting.SubscriberActionToTake]: firstValueFromArray(appSettings[AppSetting.SubscriberActionToTake] as string[], "noAction") as ActionToTakeSetting,
         [AppSetting.SubscriberRemovalMessage]: appSettings[AppSetting.SubscriberRemovalMessage] as string | undefined ?? "",
-        [AppSetting.ActionContentBasedOnDuration]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnDuration] as string[], "never") as "never" | "durationShorterThan" | "durationLongerThan",
+        [AppSetting.ActionContentBasedOnDuration]: firstValueFromArray(appSettings[AppSetting.ActionContentBasedOnDuration] as string[], "never") as ActionContentBasedOnDurationSetting,
         [AppSetting.DurationThreshold]: parseDurationSetting(appSettings[AppSetting.DurationThreshold] as string | undefined),
-        [AppSetting.DurationActionToTake]: firstValueFromArray(appSettings[AppSetting.DurationActionToTake] as string[], "noAction") as "remove" | "filter",
+        [AppSetting.DurationActionToTake]: firstValueFromArray(appSettings[AppSetting.DurationActionToTake] as string[], "noAction") as ActionToTakeSetting,
         [AppSetting.DurationRemovalMessage]: appSettings[AppSetting.DurationRemovalMessage] as string | undefined ?? "",
         [AppSetting.ActionContentBasedOnHashtags]: appSettings[AppSetting.ActionContentBasedOnHashtags] as boolean | undefined ?? false,
         [AppSetting.HashtagsToCheck]: (appSettings[AppSetting.HashtagsToCheck] as string | undefined ?? "").split(",").map(tag => tag.toLowerCase().trim()).filter(tag => tag.length > 0),
-        [AppSetting.HashtagActionToTake]: firstValueFromArray(appSettings[AppSetting.HashtagActionToTake] as string[], "noAction") as "remove" | "filter",
+        [AppSetting.HashtagActionToTake]: firstValueFromArray(appSettings[AppSetting.HashtagActionToTake] as string[], "noAction") as ActionToTakeSetting,
         [AppSetting.HashtagRemovalMessage]: appSettings[AppSetting.HashtagRemovalMessage] as string | undefined ?? "",
         [AppSetting.StickyRemovalMessage]: appSettings[AppSetting.StickyRemovalMessage] as boolean | undefined ?? false,
     };
