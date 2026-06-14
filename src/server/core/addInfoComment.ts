@@ -3,6 +3,7 @@ import { reddit } from "@devvit/web/server";
 import { AppSetting, ChannelData, getBotCommentFooter, getChannelData, getSettings, getVideoData, SubredditSettings, VideoData } from ".";
 import { format } from "date-fns";
 import markdownEscape from "markdown-escape";
+import pluralize from "pluralize";
 
 function formatNumber (input: number): string {
     if (input >= 1_000_000_000) {
@@ -131,5 +132,5 @@ export async function addInfoComment (videoIds: string[], targetId: T1 | T3) {
     await newComment.distinguish(shouldSticky);
     await newComment.lock();
 
-    console.log(`Added info comment to ${kind} ${targetId} for videos ${videoIds.join(", ")}`);
+    console.log(`Added info comment to ${kind} ${targetId} for ${pluralize("video", videoIds.length)} ${videoIds.join(", ")}`);
 }
