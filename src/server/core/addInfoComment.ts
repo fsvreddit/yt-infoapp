@@ -3,6 +3,7 @@ import { reddit } from "@devvit/web/server";
 import { AppSetting, ChannelData, getBotCommentFooter, getChannelData, getSettings, getVideoData, SubredditSettings, VideoData } from ".";
 import { format } from "date-fns";
 import markdownEscape from "markdown-escape";
+import { formatVideoDescriptionForInfoComment } from "./descriptionFormatting.js";
 import pluralize from "pluralize";
 
 function formatNumber (input: number): string {
@@ -19,42 +20,6 @@ function formatNumber (input: number): string {
 
 function blockquote (text: string): string {
     return text.split("\n").map(line => `> ${line}`).join("\n");
-}
-
-/**
- * Escapes strings to Markdown without escaping URLs, something that markdownEscape doesn't support properly.
- * @param input A clean string
- * @returns Markdown output escaped apart from URLs
- */
-function escapeMarkdownExceptUrls (input: string): string {
-    const urlRegex = /\b((https?:\/\/|www\.)[^\s<>()]+)\b/gi;
-
-    // Markdown characters that need escaping
-    const mdSpecials = /([\\`*_{}[\]()#+\-.!])/g;
-
-    let result = "";
-    let lastIndex = 0;
-
-    input.replace(
-        urlRegex,
-        (match: string, _url: string, _proto: string, offset: number) => {
-            // Escape text before the URL
-            const before = input.slice(lastIndex, offset);
-            result += before.replace(mdSpecials, "\\$1");
-
-            // Add URL untouched
-            result += match;
-
-            lastIndex = offset + match.length;
-            return match;
-        },
-    );
-
-    // Escape remaining text after last URL
-    const rest = input.slice(lastIndex);
-    result += rest.replace(mdSpecials, "\\$1");
-
-    return result;
 }
 
 function getInfoFromVideoId (videoData: VideoData, channelData: Record<string, ChannelData>, appSettings: SubredditSettings): string {
@@ -90,7 +55,8 @@ function getInfoFromVideoId (videoData: VideoData, channelData: Record<string, C
 
     if (appSettings[AppSetting.IncludeVideoDescriptionInVideoInfoComment] && videoData.description) {
         infoLines.push("Description:");
-        infoLines.push(blockquote(escapeMarkdownExceptUrls(videoData.description)));
+        const description = formatVideoDescriptionForInfoComment(videoData.description, appSettings[AppSetting.RedactLinksInVideoDescription]);
+        infoLines.push(blockquote(description));
     }
 
     return infoLines.join("\n\n");

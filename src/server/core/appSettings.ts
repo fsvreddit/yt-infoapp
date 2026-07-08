@@ -7,6 +7,7 @@ export enum AppSetting {
     IncludeViewCountInVideoInfoComment = "includeViewCountInVideoInfoComment",
     IncludeSubscriberCountInVideoInfoComment = "includeSubscriberCountInVideoInfoComment",
     IncludeVideoDescriptionInVideoInfoComment = "includeVideoDescriptionInVideoInfoComment",
+    RedactLinksInVideoDescription = "redactLinksInVideoDescription",
     StickyVideoInfoComment = "stickyVideoInfoComment",
 
     ExemptModsFromAllEnforcementActions = "exemptModsFromAllEnforcementActions",
@@ -43,6 +44,7 @@ export interface SubredditSettings {
     [AppSetting.IncludeViewCountInVideoInfoComment]: boolean;
     [AppSetting.IncludeSubscriberCountInVideoInfoComment]: boolean;
     [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: boolean;
+    [AppSetting.RedactLinksInVideoDescription]: boolean;
     [AppSetting.StickyVideoInfoComment]: boolean;
     [AppSetting.ExemptModsFromAllEnforcementActions]: boolean;
     [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: boolean;
@@ -107,6 +109,7 @@ export async function getSettings (): Promise<SubredditSettings> {
         [AppSetting.IncludeViewCountInVideoInfoComment]: appSettings[AppSetting.IncludeViewCountInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.IncludeSubscriberCountInVideoInfoComment]: appSettings[AppSetting.IncludeSubscriberCountInVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.IncludeVideoDescriptionInVideoInfoComment]: appSettings[AppSetting.IncludeVideoDescriptionInVideoInfoComment] as boolean | undefined ?? false,
+        [AppSetting.RedactLinksInVideoDescription]: appSettings[AppSetting.RedactLinksInVideoDescription] as boolean | undefined ?? false,
         [AppSetting.StickyVideoInfoComment]: appSettings[AppSetting.StickyVideoInfoComment] as boolean | undefined ?? false,
         [AppSetting.ExemptModsFromAllEnforcementActions]: appSettings[AppSetting.ExemptModsFromAllEnforcementActions] as boolean | undefined ?? true,
         [AppSetting.ExemptApprovedUsersFromAllEnforcementActions]: appSettings[AppSetting.ExemptApprovedUsersFromAllEnforcementActions] as boolean | undefined ?? true,
