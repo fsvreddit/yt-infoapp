@@ -69,6 +69,12 @@
                 "label": "Include Video Description in Video Info Comment",
                 "type": "boolean"
             },
+            "redactLinksInVideoDescription": {
+                "defaultValue": false,
+                "helpText": "When video descriptions are included in info comments, replace links with domain-only placeholders such as [redacted link: cash.app].",
+                "label": "Redact Links in Video Description",
+                "type": "boolean"
+            },
             "stickyVideoInfoComment": {
                 "defaultValue": false,
                 "helpText": "Applies to posts only",
