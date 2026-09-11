@@ -140,7 +140,10 @@ export async function actionContentBasedOnThresholds (videoIds: string[], userna
         await newComment.distinguish(shouldSticky);
         await newComment.lock();
     } else if (filterReasons.length > 0) {
-        await target.filter(filterReasons.join("; "), false);
+        await target.filter({
+            reason: filterReasons.join("; "),
+            keep: false,
+        });
     }
 
     console.log(`Action taken on ${isT3(targetId) ? "post" : "comment"} ${targetId} for reasons: ${Array.from(thresholdIssues).join(", ")}.`);
