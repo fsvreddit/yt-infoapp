@@ -3,4 +3,5 @@ export * from "./actionExemptionChecks.js";
 export * from "./addInfoComment.js";
 export * from "./appSettings.js";
 export * from "./helpers.js";
+export * from "./schedulerJobs.js";
 export * from "./youtubeData.js";

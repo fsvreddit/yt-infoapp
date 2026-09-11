@@ -3,9 +3,31 @@ import { describe, it } from "vitest";
 import devvitConfig from "../../../devvit.json";
 import { AppSetting, parseDurationSetting } from "./appSettings.js";
 
+interface DevvitSetting {
+    type?: string;
+    fields?: Record<string, DevvitSetting>;
+}
+
+function collectNonGroupSettingKeys (settingsMap: Record<string, DevvitSetting>): string[] {
+    const keys: string[] = [];
+
+    for (const [settingKey, settingValue] of Object.entries(settingsMap)) {
+        if (settingValue.type === "group") {
+            if (settingValue.fields !== undefined) {
+                keys.push(...collectNonGroupSettingKeys(settingValue.fields));
+            }
+            continue;
+        }
+
+        keys.push(settingKey);
+    }
+
+    return keys;
+}
+
 const configSettingKeys = [
-    ...Object.keys(devvitConfig.settings.subreddit),
-    ...Object.keys(devvitConfig.settings.global),
+    ...collectNonGroupSettingKeys(devvitConfig.settings.subreddit),
+    ...collectNonGroupSettingKeys(devvitConfig.settings.global),
 ].sort();
 
 const appSettingValues: string[] = Object.values(AppSetting).sort();

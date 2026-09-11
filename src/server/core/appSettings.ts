@@ -11,6 +11,7 @@ export enum AppSetting {
 
     ExemptModsFromAllEnforcementActions = "exemptModsFromAllEnforcementActions",
     ExemptApprovedUsersFromAllEnforcementActions = "exemptApprovedUsersFromAllEnforcementActions",
+    StickyRemovalMessage = "stickyRemovalMessage",
 
     ActionContentBasedOnSubscriberCount = "actionContentBasedOnSubscriberCount",
     SubscriberThreshold = "subscriberThreshold",
@@ -27,7 +28,7 @@ export enum AppSetting {
     HashtagActionToTake = "hashtagActionToTake",
     HashtagRemovalMessage = "hashtagRemovalMessage",
 
-    StickyRemovalMessage = "stickyRemovalMessage",
+    NotifyOnUpdates = "notifyOnUpdates",
 
     // App-scoped settings
     YoutubeAPIKey = "ytAPIKey",

@@ -24,6 +24,11 @@ At present, a reason isn't visible in the modqueue when filtering posts or comme
 
 ## Change History
 
+### v1.2.2
+
+* Fix link on app comments to correctly link to the "message the mods" link
+* Add update notifier feature
+
 ### v1.2.1
 
 * Add support for Youtube Shorts URLs
